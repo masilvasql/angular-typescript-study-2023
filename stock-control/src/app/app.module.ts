@@ -7,11 +7,14 @@ import {CardModule} from 'primeng/card';
 import {ToastModule} from 'primeng/toast'
 import {ButtonModule} from 'primeng/button';
 import {InputTextModule} from 'primeng/inputtext';
+import { CookieService } from 'ngx-cookie-service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { HomeComponent } from './modules/home/home.component';
+import { MessageService } from 'primeng/api';
+
 
 @NgModule({
   declarations: [AppComponent, HomeComponent],
@@ -20,15 +23,18 @@ import { HomeComponent } from './modules/home/home.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    HttpClientModule,
+    HttpClientModule, //permite fazer requisições HTTP
     // PrimeNG
     CardModule,
     InputTextModule,
     ButtonModule,
-    ToastModule,
+    ToastModule, //toaster da aplicação
 
   ],
-  providers: [],
+  providers: [
+    CookieService,  //controlar cookies
+    MessageService
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
