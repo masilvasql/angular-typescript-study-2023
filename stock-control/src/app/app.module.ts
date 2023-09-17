@@ -3,18 +3,17 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
-import {CardModule} from 'primeng/card';
-import {ToastModule} from 'primeng/toast'
-import {ButtonModule} from 'primeng/button';
-import {InputTextModule} from 'primeng/inputtext';
 import { CookieService } from 'ngx-cookie-service';
+
+import { CardModule } from 'primeng/card';
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
 import { HomeComponent } from './modules/home/home.component';
-import { MessageService } from 'primeng/api';
-
 
 @NgModule({
   declarations: [AppComponent, HomeComponent],
@@ -23,18 +22,14 @@ import { MessageService } from 'primeng/api';
     AppRoutingModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    HttpClientModule, //permite fazer requisições HTTP
-    // PrimeNG
+    HttpClientModule,
+    // PrimeNg
     CardModule,
     InputTextModule,
     ButtonModule,
-    ToastModule, //toaster da aplicação
-
+    ToastModule,
   ],
-  providers: [
-    CookieService,  //controlar cookies
-    MessageService
-  ],
+  providers: [CookieService, MessageService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

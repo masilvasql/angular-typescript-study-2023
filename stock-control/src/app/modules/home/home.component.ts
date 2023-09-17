@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { MessageService } from 'primeng/api';
-import { UserService } from 'src/app/services/user.service';
+import { UserService } from 'src/app/services/user/user.service';
+
 import { SignUpUserRequest } from 'src/models/interfaces/users/SignUpUserRequest';
 import { AuthRequest } from 'src/models/interfaces/users/auth/AuthRequest';
 import { AuthResponse } from 'src/models/interfaces/users/auth/AuthResponse';
@@ -29,7 +31,8 @@ export class HomeComponent {
     private formBuilder: FormBuilder, 
     private userService:UserService,
     private cookieService:CookieService,
-    private messageService:MessageService
+    private messageService:MessageService,
+    private router:Router
     ) {}
 
   onSubmitLoginForm(): void {
@@ -40,7 +43,8 @@ export class HomeComponent {
           if(response){
             this.cookieService.set("USER_INFO", response?.token)
             this.loginForm.reset()
-            this.messageService.add({severity:'success', summary:'Sucesso', detail:`Bem-vindo de volta! ${response?.name}`, life: 2000})
+            this.router.navigate(["/dashboard"])
+            this.messageService.add({severity:'success', summary:'Sucesso', detail:`Bem-vindo de volta ${response?.name}.`, life: 2000})
           }
         },
         error:(error)=>{

@@ -29,8 +29,15 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## Generate new Service
 
-ng g s services/stock --> Cria um novo serviço
+ng g s services/stock 
 
+## Generate new Component
+ng g c components/stock
+
+## Generate new Module
+ng g m modules/stock
+
+## Start server
 ng s --> Inicia o servidor
 
 ## Libs
