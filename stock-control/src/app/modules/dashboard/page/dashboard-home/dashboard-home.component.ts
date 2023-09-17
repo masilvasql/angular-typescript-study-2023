@@ -1,8 +1,169 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChartData, ChartOptions } from 'chart.js';
+import { MessageService, SelectItemGroup } from 'primeng/api';
+import { Subject, takeUntil } from 'rxjs';
+import { GetAllProductsResponse } from 'src/app/models/interfaces/products/response/GetAllProductsResponse';
+import { ProductsService } from 'src/app/services/products/products.service';
+import { ProductsDataTransferService } from 'src/app/shared/services/products/products-data-transfer.service';
 
 @Component({
   selector: 'app-dashboard-home',
   templateUrl: './dashboard-home.component.html',
   styleUrls: [],
 })
-export class DashboardHomeComponent {}
+export class DashboardHomeComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
+  public productsList: Array<GetAllProductsResponse> = [];
+  public chartType:string = 'bar';
+
+  public chartTypes = [
+    {
+      label: 'Pizza',
+      value: 'pie',
+      
+    },
+    {
+      label: 'Barra',
+      value: 'bar',
+
+    },
+    {
+      label: 'Linha',
+      value: 'line',
+
+    },
+    {
+      label: 'Doughnut',
+      value: 'doughnut',
+
+    },
+    {
+      label: 'Polar',
+      value: 'polarArea',
+
+    },
+  ]
+
+  public productsChartDatas!: ChartData;
+  public productsChartOptions!: ChartOptions;
+
+  constructor(
+    private productsService: ProductsService,
+    private messageService: MessageService,
+    private productsDtService: ProductsDataTransferService
+  ) {}
+
+  ngOnInit(): void {
+    this.getProductsDatas();
+  }
+
+  getProductsDatas(): void {
+    this.productsService
+      .getAllProducts()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          if (response.length > 0) {
+            this.productsList = response;
+            this.productsDtService.setProductsDatas(this.productsList);
+            this.setProductsChartConfig();
+          }
+        },
+        error: (err) => {
+          console.log(err);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erro',
+            detail: 'Erro ao buscar produtos!',
+            life: 2500,
+          });
+        },
+      });
+  }
+
+  setProductsChartConfig(): void {
+
+    const colors = [
+      'rgba(255, 99, 132, 0.6)',
+      'rgba(54, 162, 235, 0.6)',
+      'rgba(255, 206, 86, 0.6)',
+      'rgba(75, 192, 192, 0.6)',
+      'rgba(153, 102, 255, 0.6)',
+      'rgba(255, 159, 64, 0.6)',
+      // Adicione quantas cores você precisar
+    ];
+
+    if (this.productsList.length > 0) {
+      const documentStyle = getComputedStyle(document.documentElement);
+      const textColor = documentStyle.getPropertyValue('--text-color');
+      const textColorSecondary = documentStyle.getPropertyValue(
+        '--text-color-secondary'
+      );
+      const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+
+      this.productsChartDatas = {
+        labels: this.productsList.map((element) => element?.name),
+        datasets: [
+          {
+            label: 'Quantidade',
+        
+            backgroundColor: colors,
+
+            borderColor: documentStyle.getPropertyValue('--indigo-400'),
+            hoverBackgroundColor:
+              documentStyle.getPropertyValue('--indigo-500'),
+            data: this.productsList.map((element) => element?.amount),
+          },
+        ],
+      };
+
+      this.productsChartOptions = {
+        maintainAspectRatio: false,
+        aspectRatio: 0.8,
+        plugins: {
+          legend: {
+            labels: {
+              color: textColor,
+            },
+          },
+        },
+
+        scales: {
+          x: {
+            ticks: {
+              color: textColorSecondary,
+              font: {
+                weight: '500',
+              },
+            },
+            grid: {
+              color: surfaceBorder,
+            },
+          },
+          y: {
+            ticks: {
+              color: textColorSecondary,
+            },
+            grid: {
+              color: surfaceBorder,
+            },
+          },
+        },
+      };
+    }
+  }
+
+  changeChartType(type:string): void {
+   
+    this.chartType = type;
+    this.setProductsChartConfig();
+
+  }
+
+
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+}

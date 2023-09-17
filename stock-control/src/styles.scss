@@ -159,7 +159,7 @@
 }
 
 .mt-10 {
-  margin-top: 28vh;
+  margin-top: 30vh;
 }
 
 .exact_route {
@@ -171,3 +171,12 @@
     width: 50%;
   }
 }
+
+
+.container{
+  display:flex;
+  flex-wrap: wrap;
+  gap:10px;
+  margin-bottom: 15px;
+}
+

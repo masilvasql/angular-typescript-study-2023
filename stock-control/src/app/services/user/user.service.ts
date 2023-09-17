@@ -1,12 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from 'environments/environment';
+
 import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
-import { SignUpUserRequest } from 'src/models/interfaces/users/SignUpUserRequest';
-import { SignUpUserResponse } from 'src/models/interfaces/users/SignUpUserResponse';
-import { AuthRequest } from 'src/models/interfaces/users/auth/AuthRequest';
-import { AuthResponse } from 'src/models/interfaces/users/auth/AuthResponse';
+import { SignUpUserRequest } from 'src/app/models/interfaces/users/SignUpUserRequest';
+import { SignUpUserResponse } from 'src/app/models/interfaces/users/SignUpUserResponse';
+import { AuthRequest } from 'src/app/models/interfaces/users/auth/AuthRequest';
+import { AuthResponse } from 'src/app/models/interfaces/users/auth/AuthResponse';
+import { environment } from 'src/environments/environment';
+
 
 @Injectable({
   providedIn: 'root'

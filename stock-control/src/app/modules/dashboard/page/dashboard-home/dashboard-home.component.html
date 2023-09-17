@@ -1,1 +1,59 @@
-<app-toolbar-navigation></app-toolbar-navigation>
+<app-toolbar-navigation> </app-toolbar-navigation>
+
+<div class="grid">
+    <div class="col-12">
+        <!-- GRÁFICO DE PRODUTOS EM ESTOQUE -->
+        <p-card header="Quantidade de produtos em estoque" styleClass="shadow-3 m-5 text-indigo-800">
+            <div class="container">
+                <p-button 
+                    label="Barra" 
+                    icon="pi pi-chart-bar" 
+                    class="p-button-rounded p-button-text"
+                    (onClick)="changeChartType('bar')"></p-button>
+
+                <p-button 
+                    label="Pizza" 
+                    icon="pi pi-chart-pie" 
+                    class="p-button-rounded p-button-text"
+                    (onClick)="changeChartType('pie')">
+                </p-button>
+
+                <p-button 
+                    label="Linha" 
+                    icon="pi pi-chart-line" 
+                    class="p-button-rounded p-button-text"
+                    (onClick)="changeChartType('line')">
+                </p-button>
+
+                <p-button 
+                    label="Doughnut" 
+                    icon="pi pi-chart-doughnut" 
+                    class="p-button-rounded p-button-text"
+                    (onClick)="changeChartType('doughnut')">
+                </p-button>
+
+                <p-button 
+                    label="Radar" 
+                    icon="pi pi-chart-radar" 
+                    class="p-button-rounded p-button-text"
+                    (onClick)="changeChartType('radar')">
+                </p-button>
+
+                <p-button 
+                    label="Polar" 
+                    icon="pi pi-chart-bar" 
+                    class="p-button-rounded p-button-text"
+                    (onClick)="changeChartType('polarArea')">
+                </p-button>
+
+                <!-- criar select box -->
+
+              
+
+                
+            </div>
+
+            <p-chart [type]="chartType" [data]="productsChartDatas" [options]="productsChartOptions"></p-chart>
+        </p-card>
+    </div>
+</div>
