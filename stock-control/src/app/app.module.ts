@@ -14,6 +14,8 @@ import { MessageService } from 'primeng/api';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './modules/home/home.component';
+import { ProductsHomeComponent } from './modules/products/page/products-home/products-home.component';
+
 
 @NgModule({
   declarations: [AppComponent, HomeComponent],

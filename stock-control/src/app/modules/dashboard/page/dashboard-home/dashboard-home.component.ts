@@ -14,35 +14,7 @@ import { ProductsDataTransferService } from 'src/app/shared/services/products/pr
 export class DashboardHomeComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   public productsList: Array<GetAllProductsResponse> = [];
-  public chartType:string = 'bar';
-
-  public chartTypes = [
-    {
-      label: 'Pizza',
-      value: 'pie',
-      
-    },
-    {
-      label: 'Barra',
-      value: 'bar',
-
-    },
-    {
-      label: 'Linha',
-      value: 'line',
-
-    },
-    {
-      label: 'Doughnut',
-      value: 'doughnut',
-
-    },
-    {
-      label: 'Polar',
-      value: 'polarArea',
-
-    },
-  ]
+  public chartType: string = 'bar';
 
   public productsChartDatas!: ChartData;
   public productsChartOptions!: ChartOptions;
@@ -51,7 +23,7 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
     private productsService: ProductsService,
     private messageService: MessageService,
     private productsDtService: ProductsDataTransferService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getProductsDatas();
@@ -90,7 +62,6 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
       'rgba(75, 192, 192, 0.6)',
       'rgba(153, 102, 255, 0.6)',
       'rgba(255, 159, 64, 0.6)',
-      // Adicione quantas cores você precisar
     ];
 
     if (this.productsList.length > 0) {
@@ -106,7 +77,7 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
         datasets: [
           {
             label: 'Quantidade',
-        
+
             backgroundColor: colors,
 
             borderColor: documentStyle.getPropertyValue('--indigo-400'),
@@ -153,8 +124,8 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
     }
   }
 
-  changeChartType(type:string): void {
-   
+  changeChartType(type: string): void {
+
     this.chartType = type;
     this.setProductsChartConfig();
 
