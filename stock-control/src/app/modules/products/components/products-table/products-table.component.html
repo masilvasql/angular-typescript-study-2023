@@ -80,8 +80,8 @@
             </th>
             <th>
               <div class="flex justify-content-center">
-                <p-button styleClass="p-button-info" icon="pi pi-plus" label="Adicionar" pTooltip="Adicionar produto"
-                  tooltipPosition="top">
+                <p-button (onClick)="handlProductEvent(addProductEvent)" styleClass="p-button-info" icon="pi pi-plus"
+                  label="Adicionar" pTooltip="Adicionar produto" tooltipPosition="top">
 
                 </p-button>
 
@@ -100,13 +100,13 @@
             <td>{{product?.category.name}}</td>
             <td colspan="2">
               <div class="flex justify-content-center gap-3 align-items-center alig-content-center">
-                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning"
-                  pTooltip="Editar produto" tooltipPosition="top"
-                >
+                <button (click)="handlProductEvent(editProductEvent, product?.id)" pButton pRipple icon="pi pi-pencil"
+                  class="p-button-rounded p-button-warning" pTooltip="Editar produto" tooltipPosition="top">
                 </button>
-                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
-                  pTooltip="Remover produto" tooltipPosition="top"
-                >
+                <button
+                (click)="handleDeleteProduct(product?.id, product?.name)"
+                pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
+                  pTooltip="Remover produto" tooltipPosition="top">
                 </button>
               </div>
             </td>
