@@ -1,0 +1,29 @@
+<div>
+  <form [formGroup]="addProductForm" (ngSubmit)="handleSubmitAddProduct()">
+    <div class="card flex flex-column md:flex-column gap-3">
+      <input pInputText placeholder="Nome" formControlName="name"/>
+
+      <p-dropdown
+        styleClass="w-full"
+        [options]="categoriesDatas"
+        [filter]="true"
+        [(ngModel)]="selectedCategory"
+        optionLabel="name"
+        optionValue="id"
+        placeholder="Selectione uma Categoria"
+        formControlName="category_id"
+      ></p-dropdown>
+      <input pInputText placeholder="Preço" formControlName="price"/>
+      <textarea pInputTextarea placeholder="Descrição" formControlName="description"></textarea>
+      <input pInputText placeholder="Quantidade" formControlName="amount"/>
+
+      <div class="flex flex-row justify-conter align-content-center align-items-center m-1">
+        <p-button
+        [disabled]="!addProductForm.valid"
+        type="submit"
+        label="Concluir"
+        ></p-button>
+      </div>
+    </div>
+  </form>
+</div>

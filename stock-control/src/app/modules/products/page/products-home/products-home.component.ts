@@ -1,12 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subject, takeUntil } from 'rxjs';
 import { DeleteProductAction } from 'src/app/models/interfaces/products/event/DeleteProductAction';
 import { EventAction } from 'src/app/models/interfaces/products/event/EventAction';
 import { GetAllProductsResponse } from 'src/app/models/interfaces/products/response/GetAllProductsResponse';
 import { ProductsService } from 'src/app/services/products/products.service';
 import { ProductsDataTransferService } from 'src/app/shared/services/products/products-data-transfer.service';
+import { ProductFormComponent } from '../../components/product-form/product-form.component';
 
 @Component({
   selector: 'app-products-home',
@@ -17,6 +19,7 @@ export class ProductsHomeComponent implements OnInit, OnDestroy {
 
 
   private readonly _destroyed$: Subject<void> = new Subject();
+  private ref!:DynamicDialogRef;
 
   public productsDatas: Array<GetAllProductsResponse> = [];
 
@@ -26,7 +29,8 @@ export class ProductsHomeComponent implements OnInit, OnDestroy {
     private productsDataTransferService: ProductsDataTransferService,
     private router: Router,
     private messageService: MessageService,
-    private confirmationService:ConfirmationService
+    private confirmationService:ConfirmationService,
+    private dialogService:DialogService
   ) { }
   ngOnInit(): void {
     this.getServiceProductsDatas();
@@ -69,7 +73,32 @@ export class ProductsHomeComponent implements OnInit, OnDestroy {
   }
 
   handleProductAction(event:EventAction): void {
-    console.log(event);
+    if(event.action === 'Adicionar Produto'){
+      this.ref = this.dialogService.open(ProductFormComponent,{
+        header: event.action,
+        width: '50%',
+        contentStyle:{overflow:'auto'},
+        baseZIndex: 10000,
+        maximizable: true,
+        data: {
+          event: event,
+          producDatas: this.productsDatas
+        },
+        draggable: true,
+        closable: true,
+        transitionOptions: '600ms cubic-bezier(0.25, 0.8, 0.25, 1)',
+        rtl: true,
+
+      },)
+      this.ref.onClose.pipe(takeUntil(this._destroyed$)).subscribe({
+        next: (response) => this.getProductsDatas(),
+        error: (error) => {
+          console.log(error);
+        }
+      })
+    }else{
+      console.log(event);
+    }
   }
 
   handleDeleteProductAction(event:DeleteProductAction){
