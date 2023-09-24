@@ -1,7 +1,7 @@
-<div>
+<div *ngIf="productAction?.event?.action === addProductAction">
   <form [formGroup]="addProductForm" (ngSubmit)="handleSubmitAddProduct()">
     <div class="card flex flex-column md:flex-column gap-3">
-      <input pInputText placeholder="Nome" formControlName="name"/>
+      <input pInputText pAutoFocus [autofocus]="true" placeholder="Nome" formControlName="name" id="name"   />
 
       <p-dropdown
         styleClass="w-full"
@@ -20,6 +20,25 @@
       <div class="flex flex-row justify-conter align-content-center align-items-center m-1">
         <p-button
         [disabled]="!addProductForm.valid"
+        type="submit"
+        label="Concluir"
+        ></p-button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div *ngIf="productAction?.event?.action === editProductAction">
+  <form [formGroup]="editProductForm" (ngSubmit)="handleSubmitEditProduct()">
+    <div class="card flex flex-column md:flex-column gap-3">
+      <input pInputText pAutoFocus [autofocus]="true" placeholder="Nome" formControlName="name" id="name"   />
+      <input pInputText placeholder="Preço" formControlName="price"/>
+      <textarea pInputTextarea placeholder="Descrição" formControlName="description"></textarea>
+      <input pInputText placeholder="Quantidade" formControlName="amount"/>
+
+      <div class="flex flex-row justify-conter align-content-center align-items-center m-1">
+        <p-button
+        [disabled]="!editProductForm.valid"
         type="submit"
         label="Concluir"
         ></p-button>

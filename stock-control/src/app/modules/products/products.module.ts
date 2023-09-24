@@ -21,6 +21,7 @@ import { RouterModule } from '@angular/router';
 import { PRODUCTS_ROUTES } from './products.routing';
 import { ProductsTableComponent } from './components/products-table/products-table.component';
 import { ProductFormComponent } from './components/product-form/product-form.component';
+import { AutoFocusModule } from 'primeng/autofocus';
 
 
 
@@ -31,6 +32,7 @@ import { ProductFormComponent } from './components/product-form/product-form.com
     ProductFormComponent
   ],
   imports: [
+    AutoFocusModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,

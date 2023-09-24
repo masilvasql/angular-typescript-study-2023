@@ -19,7 +19,7 @@ export class ProductsHomeComponent implements OnInit, OnDestroy {
 
 
   private readonly _destroyed$: Subject<void> = new Subject();
-  private ref!:DynamicDialogRef;
+  private ref!: DynamicDialogRef;
 
   public productsDatas: Array<GetAllProductsResponse> = [];
 
@@ -29,8 +29,8 @@ export class ProductsHomeComponent implements OnInit, OnDestroy {
     private productsDataTransferService: ProductsDataTransferService,
     private router: Router,
     private messageService: MessageService,
-    private confirmationService:ConfirmationService,
-    private dialogService:DialogService
+    private confirmationService: ConfirmationService,
+    private dialogService: DialogService
   ) { }
   ngOnInit(): void {
     this.getServiceProductsDatas();
@@ -72,36 +72,35 @@ export class ProductsHomeComponent implements OnInit, OnDestroy {
       })
   }
 
-  handleProductAction(event:EventAction): void {
-    if(event.action === 'Adicionar Produto'){
-      this.ref = this.dialogService.open(ProductFormComponent,{
-        header: event.action,
-        width: '50%',
-        contentStyle:{overflow:'auto'},
-        baseZIndex: 10000,
-        maximizable: true,
-        data: {
-          event: event,
-          producDatas: this.productsDatas
-        },
-        draggable: true,
-        closable: true,
-        transitionOptions: '600ms cubic-bezier(0.25, 0.8, 0.25, 1)',
-        rtl: true,
+  handleProductAction(event: EventAction): void {
 
-      },)
-      this.ref.onClose.pipe(takeUntil(this._destroyed$)).subscribe({
-        next: (response) => this.getProductsDatas(),
-        error: (error) => {
-          console.log(error);
-        }
-      })
-    }else{
-      console.log(event);
-    }
+    this.ref = this.dialogService.open(ProductFormComponent, {
+      header: event.action,
+      width: '50%',
+      contentStyle: { overflow: 'auto' },
+      baseZIndex: 10000,
+      maximizable: true,
+
+      data: {
+        event: event,
+        productDatas: this.productsDatas,
+        focus: true
+      },
+    })
+    this.ref.onClose.pipe(takeUntil(this._destroyed$)).subscribe({
+      next: (response) => {
+        this.getProductsDatas();
+        // close the dialog
+
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    })
+
   }
 
-  handleDeleteProductAction(event:DeleteProductAction){
+  handleDeleteProductAction(event: DeleteProductAction) {
     this.confirmationService.confirm({
       message: `Deseja realmente excluir o produto ${event.product_name}?`,
       header: 'Confirmação de Exclusão',
@@ -120,33 +119,33 @@ export class ProductsHomeComponent implements OnInit, OnDestroy {
     })
   }
   deleteProduct(product_id: string) {
-    if(product_id){
+    if (product_id) {
       let response = this.productsService
-      .deleteProduct(product_id)
-      .pipe(
-        takeUntil(this._destroyed$)
-      ).subscribe({
-        next: (response) => {
-          if(response){
+        .deleteProduct(product_id)
+        .pipe(
+          takeUntil(this._destroyed$)
+        ).subscribe({
+          next: (response) => {
+            if (response) {
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Sucesso',
+                detail: 'Produto excluído com sucesso',
+                life: 3000
+              });
+              this.getProductsDatas();
+            }
+          },
+          error: (error) => {
+            console.log(error);
             this.messageService.add({
-              severity: 'success',
-              summary: 'Sucesso',
-              detail: 'Produto excluído com sucesso',
+              severity: 'error',
+              summary: 'Erro',
+              detail: 'Erro ao excluir o produto',
               life: 3000
             });
-            this.getProductsDatas();
           }
-        },
-        error: (error) => {
-          console.log(error);
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Erro',
-            detail: 'Erro ao excluir o produto',
-            life: 3000
-          });
-        }
-      })
+        })
     }
   }
 
